@@ -14,6 +14,8 @@ import pandas as pd
 from datasets.utilities import load_data, pool_data, load_split_data
 from emnist import extract_training_samples, extract_test_samples
 
+DATA_DIR = "I:/Documents/Josh/Qualia/datasets"
+
 #load mnist_images
 def get_emnist_images(formatted=True, dataset='balanced'):
     """
@@ -34,14 +36,14 @@ def get_emnist_images(formatted=True, dataset='balanced'):
 
 
 def get_isolet_images():
-    isolet_x_train, isolet_y_train, isolet_x_test, isolet_y_test = load_split_data('datasets/isolet_encoded.npz')
+    isolet_x_train, isolet_y_train, isolet_x_test, isolet_y_test = load_split_data(DATA_DIR + '/isolet_encoded.npz')
 
     return isolet_x_train, isolet_y_train, isolet_x_test, isolet_y_test
 
 
 # load all_sounds
 def get_all_sounds(formatted=True, test_size=None, **kwargs):
-    filepath = "datasets/full_sound.npz"
+    filepath = DATA_DIR + "/full_sound.npz"
     x, y = load_data(filepath)
 
     if formatted:
@@ -192,15 +194,15 @@ def get_emnist_plus_isolet(verbose=False, as_image=True, return_as_numpy=False, 
         sound_x_train, sound_y_train, sound_x_test, sound_y_test = get_isolet_images()
 
     else:
-        emnist_x_train = pd.read_csv('datasets/emist_encoded_train.csv', index_col=0)
-        emnist_x_test = pd.read_csv('datasets/emist_encoded_test.csv', index_col=0)
+        emnist_x_train = pd.read_csv(DATA_DIR + '/emist_encoded_train.csv', index_col=0)
+        emnist_x_test = pd.read_csv(DATA_DIR + '/emist_encoded_test.csv', index_col=0)
         image_y_train = emnist_x_train.pop('label').values
         image_y_test = emnist_x_test.pop('label').values
         image_x_train = emnist_x_train.values
         image_x_test = emnist_x_test.values
 
-        isolet_x_train = pd.read_csv('datasets/isolet1+2+3+4.data', header=None)
-        isolet_x_test = pd.read_csv('datasets/isolet5.data', header=None)
+        isolet_x_train = pd.read_csv(DATA_DIR + '/isolet1+2+3+4.data', header=None)
+        isolet_x_test = pd.read_csv(DATA_DIR + '/isolet5.data', header=None)
         last_col = isolet_x_train.columns[-1]
         sound_y_train = isolet_x_train.pop(last_col).values
         sound_y_test = isolet_x_test.pop(last_col).values
